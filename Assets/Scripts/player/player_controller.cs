@@ -18,6 +18,11 @@ public class player_controller : MonoBehaviour
     float xRotation = 0;
     public Transform cam;
 
+    //
+    public float mouseX;
+    public float mouseY;
+    //
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -54,13 +59,14 @@ public class player_controller : MonoBehaviour
 
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
+        mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
+        mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90, 90);// ограничения на осмотр вверх и вниз
 
-        cam.localRotation = Quaternion.Euler(xRotation, 0, 0);
+        Quaternion quaternion = Quaternion.Euler(xRotation, 0, 0);
+        cam.localRotation = quaternion;
         transform.Rotate(Vector3.up * mouseX);
     }
 

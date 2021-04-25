@@ -9,44 +9,31 @@ public class behawour : MonoBehaviour
 
     public Rigidbody player_rb;
     public float impact_forse;
+    public Transform cam;
 
-    public Transform pistol;
-    public bool is_pos1;
-    private Quaternion pos1;
-    private Quaternion pos2;
-
-    public void Start()
-    {
-        pos1 = new Quaternion(0, 0, 0, 0);
-        pos2 = new Quaternion(0, 0, 60, 0);
-    }
+    public bool canshoot = true;
+    public float waittime;
 
     public void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if ((Input.GetButtonDown("Fire1")) && (canshoot == true))
         {
             animator.Play("shoot");
             cam_animator.Play("cam_shoot");
-            player_rb.AddForce(transform.up * -impact_forse);
-        }
-
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            if (is_pos1 == true)
-            {
-                pistol.rotation = pos2;
-                is_pos1 = !is_pos1;
-            }
-            else
-            {
-                pistol.rotation = pos1;
-                is_pos1 = !is_pos1;
-            }
+            player_rb.AddForce(cam.transform.forward * -impact_forse);
+            StartCoroutine(waiter());
         }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
             animator.Play("reload");
         }
+    }
+
+    IEnumerator waiter()
+    {
+        canshoot = false;
+        yield return new WaitForSeconds(waittime);
+        canshoot = true;
     }
 }
