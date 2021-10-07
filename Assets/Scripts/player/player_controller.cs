@@ -9,8 +9,7 @@ public class player_controller : MonoBehaviour
 
     // переменные реализации передвижения
     public float player_speed = 5;
-    public float mouse_speed = 1;
-    public float jump_forse = 3;
+    public float jump_forse = 5;
     private Rigidbody rb;
 
     // переменные реализации поворота головы
@@ -42,7 +41,7 @@ public class player_controller : MonoBehaviour
         {
             if (is_grounded)
             {
-                rb.AddForce(Vector3.up * jump_forse);
+                rb.velocity = new Vector3(0, jump_forse, 0);
             }
         }
     }
@@ -70,7 +69,7 @@ public class player_controller : MonoBehaviour
         transform.Rotate(Vector3.up * mouseX);
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionStay(Collision collision)
     {
         IsGroundedUpate(collision, true);
     }
